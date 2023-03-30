@@ -63,12 +63,12 @@ public class TemplateProcessor
 
         context.put("doc", doc);
 
-        var intermediaryFile = File.createTempFile("nlapp-", ".docx");
+        var intermediaryFile = File.createTempFile("nlapp-", ".odt");
 
         var templateOutput = new FileOutputStream(intermediaryFile);
         report.process(context, templateOutput);
 
-        System.out.println("docx created here: " + intermediaryFile.getAbsolutePath());
+        System.out.println("odt created here: " + intermediaryFile.getAbsolutePath());
 
         var out = new FileOutputStream(new File(outputPath));
 
@@ -83,6 +83,8 @@ public class TemplateProcessor
 
         var documentFormat = DefaultDocumentFormatRegistry.PDF;
 
-        converter.convert(intermediaryFile).to(out).as(documentFormat).execute();
+        converter.convert(intermediaryFile)
+        .as(DefaultDocumentFormatRegistry.ODT)
+        .to(out).as(documentFormat).execute();
     }
 }
