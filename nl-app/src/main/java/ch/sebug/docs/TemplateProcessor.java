@@ -46,7 +46,7 @@ public class TemplateProcessor
         var doc = NodeModel.parse(new File(xmlPath));
 
         var context = report.createContext();
-        context.put("name", "sailor");
+        context.put("doc", doc);
 
         var intermediaryFile = File.createTempFile("nlapp-", ".docx");
 
