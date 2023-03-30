@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Person>
-    <FirstName>Antonius</FirstName>
-    <LastName>Block</LastName>
+	<FirstName>Antonius</FirstName>
+	<LastName>Block</LastName>
+	<Gear>
+		<Item>
+			<Name>Sword</Name>
+			<Weight>Heavy</Weight>
+		</Item>
+		<Item>
+			<Name>Chess Set</Name>
+			<Weight>Normal</Weight>
+		</Item>
+		<Item>
+			<Name>Cross</Name>
+			<Weight>Light</Weight>
+			<Hidden>true</Hidden>
+		</Item>
+	</Gear>
 </Person>
