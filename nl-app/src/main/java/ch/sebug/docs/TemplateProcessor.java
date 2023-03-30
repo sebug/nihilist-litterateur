@@ -1,5 +1,9 @@
 package ch.sebug.docs;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class TemplateProcessor
 {
     private final String inputPath;
@@ -11,7 +15,9 @@ public class TemplateProcessor
         this.outputPath = outputPath;
     }
 
-    public void process() {
+    public void process()
+        throws FileNotFoundException {
         System.out.println("Processing " + inputPath + " to generate " + outputPath);
+        var in = new FileInputStream(new File(inputPath));
     }
 }
