@@ -20,11 +20,14 @@ public class TemplateProcessor
 {
     private final String inputPath;
     private final String outputPath;
+    private final String xmlPath;
 
-    public TemplateProcessor(String inputPath, String outputPath)
+    public TemplateProcessor(String inputPath, String outputPath,
+        String xmlPath)
     {
         this.inputPath = inputPath;
         this.outputPath = outputPath;
+        this.xmlPath = xmlPath;
     }
 
     public void process()
