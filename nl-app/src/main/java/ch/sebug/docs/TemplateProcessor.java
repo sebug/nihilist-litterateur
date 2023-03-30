@@ -58,6 +58,7 @@ public class TemplateProcessor
         var out = new FileOutputStream(new File(outputPath));
 
         var document = new XWPFDocument(new FileInputStream(intermediaryFile));
+        document.createStyles();
 
         var options = PdfOptions.create();
 
