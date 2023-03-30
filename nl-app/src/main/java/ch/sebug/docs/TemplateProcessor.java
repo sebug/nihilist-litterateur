@@ -22,6 +22,8 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import fr.opensagres.xdocreport.core.document.SyntaxKind;
+
 public class TemplateProcessor
 {
     private final String inputPath;
@@ -46,6 +48,10 @@ public class TemplateProcessor
         var doc = NodeModel.parse(new File(xmlPath));
 
         var context = report.createContext();
+
+        var fieldsMetadata = report.createFieldsMetadata();
+        fieldsMetadata.addFieldAsTextStyling("item.Description", SyntaxKind.Html);
+
         context.put("doc", doc);
 
         var intermediaryFile = File.createTempFile("nlapp-", ".docx");
