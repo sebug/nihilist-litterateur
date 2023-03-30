@@ -24,6 +24,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import fr.opensagres.xdocreport.core.document.SyntaxKind;
 
+import org.jodconverter.local.office.LocalOfficeManager;
+import org.jodconverter.local.LocalConverter;
+import org.jodconverter.core.DocumentConverter;
+import org.jodconverter.core.office.OfficeException;
+import org.jodconverter.core.document.DocumentFamily;
+
+import org.jodconverter.core.document.DocumentFormat;
+import org.jodconverter.core.document.DefaultDocumentFormatRegistry;
 
 public class TemplateProcessor
 {
@@ -41,7 +49,7 @@ public class TemplateProcessor
 
     public void process()
         throws FileNotFoundException, IOException, XDocReportException, SAXException,
-        ParserConfigurationException {
+        ParserConfigurationException, OfficeException {
         System.out.println("Processing " + inputPath + " to generate " + outputPath);
         var in = new FileInputStream(new File(inputPath));
         var report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Freemarker);
@@ -63,5 +71,20 @@ public class TemplateProcessor
         System.out.println("docx created here: " + intermediaryFile.getAbsolutePath());
 
         var out = new FileOutputStream(new File(outputPath));
+
+        var builder = LocalOfficeManager.builder();
+        builder.startFailFast(true);
+
+        var officeManager = builder.install().build();
+        officeManager.start();
+
+        DocumentConverter converter = LocalConverter.builder().officeManager(officeManager)
+        .build();
+
+        var documentFormat = DefaultDocumentFormatRegistry.PDF;
+
+        converter.convert(intermediaryFile)
+        .as(DefaultDocumentFormatRegistry.DOCX)
+        .to(out).as(documentFormat).execute();
     }
 }
