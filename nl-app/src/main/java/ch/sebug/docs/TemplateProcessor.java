@@ -16,6 +16,12 @@ import fr.opensagres.poi.xwpf.converter.core.XWPFConverterException;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 
+import freemarker.ext.dom.NodeModel;
+
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 public class TemplateProcessor
 {
     private final String inputPath;
@@ -31,10 +37,13 @@ public class TemplateProcessor
     }
 
     public void process()
-        throws FileNotFoundException, IOException, XDocReportException {
+        throws FileNotFoundException, IOException, XDocReportException, SAXException,
+        ParserConfigurationException {
         System.out.println("Processing " + inputPath + " to generate " + outputPath);
         var in = new FileInputStream(new File(inputPath));
         var report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Freemarker);
+
+        var doc = NodeModel.parse(new File(xmlPath));
 
         var context = report.createContext();
         context.put("name", "sailor");
