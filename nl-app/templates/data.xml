@@ -6,18 +6,18 @@
 		<Item>
 			<Name>Sword</Name>
 			<Weight>Heavy</Weight>
-			<Description>A &lt;b&gt;very&lt;/b&gt; sharp weapon</Description>
+			<Description>&lt;p&gt;A &lt;b&gt;very&lt;/b&gt; sharp weapon&lt;/p&gt;</Description>
 		</Item>
 		<Item>
 			<Name>Chess Set</Name>
 			<Weight>Normal</Weight>
-			<Description>32 handmade &lt;i&gt;wooden&lt;/i&gt; pieces.</Description>
+			<Description>&lt;p&gt;32 handmade &lt;i&gt;wooden&lt;/i&gt; pieces.&lt;/p&gt;</Description>
 		</Item>
 		<Item>
 			<Name>Cross</Name>
 			<Weight>Light</Weight>
 			<Hidden>true</Hidden>
-			<Description>Family keepsake</Description>
+			<Description>&lt;p&gt;Family keepsake&lt;/p&gt;</Description>
 		</Item>
 	</Gear>
 </Person>
