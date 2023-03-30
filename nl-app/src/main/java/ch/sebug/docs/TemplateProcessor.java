@@ -10,6 +10,12 @@ import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.core.XDocReportException;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+
+import fr.opensagres.poi.xwpf.converter.core.XWPFConverterException;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
+
 public class TemplateProcessor
 {
     private final String inputPath;
@@ -28,11 +34,7 @@ public class TemplateProcessor
         var report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Freemarker);
 
         var context = report.createContext();
-
-        var project = new Project("XDocReport");
-        
-
-        context.put("name", "world");
+        context.put("name", "sailor");
 
         var intermediaryFile = File.createTempFile("nlapp-", ".docx");
 
@@ -40,5 +42,15 @@ public class TemplateProcessor
         report.process(context, templateOutput);
 
         System.out.println("docx created here: " + intermediaryFile.getAbsolutePath());
+
+        var out = new FileOutputStream(new File(outputPath));
+
+        var document = new XWPFDocument(new FileInputStream(intermediaryFile));
+
+        var options = PdfOptions.create();
+
+        PdfConverter.getInstance().convert(document, out, options);
+
+        System.out.println("Final document created at " + outputPath);
     }
 }
