@@ -2,7 +2,13 @@ package ch.sebug.docs;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import fr.opensagres.xdocreport.template.TemplateEngineKind;
+import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
+import fr.opensagres.xdocreport.core.XDocReportException;
 
 public class TemplateProcessor
 {
@@ -16,8 +22,18 @@ public class TemplateProcessor
     }
 
     public void process()
-        throws FileNotFoundException {
+        throws FileNotFoundException, IOException, XDocReportException {
         System.out.println("Processing " + inputPath + " to generate " + outputPath);
         var in = new FileInputStream(new File(inputPath));
+        var report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
+        var context = report.createContext();
+        context.put("name", "world");
+
+        var intermediaryFile = File.createTempFile("nlapp-", ".docx");
+
+        var out = new FileOutputStream(intermediaryFile);
+        report.process(context, out);
+
+        System.out.println("Docx created, converting to pdf");
     }
 }
