@@ -10,10 +10,6 @@ import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
 import fr.opensagres.xdocreport.core.XDocReportException;
 
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.converter.pdf.PdfConverter;
-import org.apache.poi.xwpf.converter.pdf.PdfOptions;
-
 public class TemplateProcessor
 {
     private final String inputPath;
@@ -29,8 +25,13 @@ public class TemplateProcessor
         throws FileNotFoundException, IOException, XDocReportException {
         System.out.println("Processing " + inputPath + " to generate " + outputPath);
         var in = new FileInputStream(new File(inputPath));
-        var report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Velocity);
+        var report = XDocReportRegistry.getRegistry().loadReport(in, TemplateEngineKind.Freemarker);
+
         var context = report.createContext();
+
+        var project = new Project("XDocReport");
+        
+
         context.put("name", "world");
 
         var intermediaryFile = File.createTempFile("nlapp-", ".docx");
@@ -38,16 +39,6 @@ public class TemplateProcessor
         var templateOutput = new FileOutputStream(intermediaryFile);
         report.process(context, templateOutput);
 
-        System.out.println("Docx created, converting to pdf");
-
-        var documentToConvert = new XWPFDocument(new FileInputStream(intermediaryFile));
-        documentToConvert.createStyles();
-        var options = PdfOptions.create();
-
-        var pdfOutput = new FileOutputStream(new File(outputPath));
-        var converterInstance = PdfConverter.getInstance();
-        converterInstance.convert(documentToConvert, pdfOutput, options);
-
-        System.out.println("Converted - output can be found on " + outputPath);
+        System.out.println("docx created here: " + intermediaryFile.getAbsolutePath());
     }
 }
